@@ -11,19 +11,22 @@ def lambda_handler(event, context):
     if content is not None:
 
         return {
-            'headers': {'Content-Type': 'text/html; charset=utf-8'},
+            'headers': {
+                'Content-Type': 'text/plan; charset=utf-8'
+            },
             'statusCode': 200,
             'body': base64.b64encode(content).decode('utf-8'),
             'isBase64Encoded': True
         }
+        # return base64.b64encode(content).decode('utf-8')
 
     else:
 
-        return {'statusCode': 404,
-                'body': json.dumps('File not found')
-                }
+        return {
+            'statusCode': 404,
+            'body': json.dumps('File not found')
+        }
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    lambda_handler('PyCharm', None)
+# if __name__ == '__main__':
+#     lambda_handler('PyCharm', None)
