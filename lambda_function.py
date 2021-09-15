@@ -5,8 +5,21 @@ import app.s3_service
 
 def lambda_handler(event, context):
 
-    content = app.s3_service.execute(bucket='bicmsystems-s3-transfer-poc',
-                                     key='log.txt')
+    if 'queryStringParameters' not in event or \
+            'bucket' not in event['queryStringParameters'] or \
+            'key' not in event['queryStringParameters'] or \
+            event['queryStringParameters']['bucket'] == '' or \
+            event['queryStringParameters']['key'] == '':
+
+        return {
+            'statusCode': 500,
+            'body': json.dumps('Parametros bucket e key devem ser informados')
+        }
+
+    bucket = event['queryStringParameters']['bucket']
+    key = event['queryStringParameters']['key']
+
+    content = app.s3_service.execute(bucket=bucket, key=key)
 
     if content is not None:
 
@@ -26,7 +39,6 @@ def lambda_handler(event, context):
             'statusCode': 404,
             'body': json.dumps('File not found')
         }
-
 
 # if __name__ == '__main__':
 #     lambda_handler('PyCharm', None)
