@@ -1,2 +1,8 @@
 # Project exclude paths
 /venv/
+.idea
+
+/tests_by_service/
+tests_by_service
+tests_by_service/
+/tests_by_service

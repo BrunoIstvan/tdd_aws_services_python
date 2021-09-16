@@ -1,22 +1,17 @@
 import boto3
 
 
-def execute(bucket, key):
+def get_s3_client():
+    return boto3.client('s3')
 
-    client = boto3.client('s3')
 
-    result = client.get_object(Bucket=bucket, Key=key)
+def execute(s3_client, bucket, key):
+
+    # executa o metodo que recupera os dados de um arquivo
+    result = s3_client.get_object(Bucket=bucket, Key=key)
 
     if result is None:
         raise Exception('Arquivo não encontrado')
 
-    if result['ContentLength'] > 0:
-
-        file = result['Body']
-        file = file.read()  # .decode('utf8')
-
-        print(file)
-
-        return file
-
-    return None
+    # retorna o conteudo e o tamanho do arquivo
+    return result['Body'].read(), result['ContentLength']
